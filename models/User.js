@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-const userSchema = new mongoose.Schema({
+const { Schema, model } = require('mongoose'); // destructuring library to use Schema and model
+const userSchema = new Schema({
     username: {
         type: String, unique: true, required: true, trim: true
     },
@@ -11,12 +11,30 @@ const userSchema = new mongoose.Schema({
             }
             , message: "Please enter a valid email address"
         }
+    },
+    thoughts: [{ // array of _id values referencing the Thought model
+        type: Schema.Types.ObjectId,
+         ref: 'Thought'  // works like a foreign key in SQL
+    }],
+
+    friends: [{ // array of _id values referencing the User model (self-reference)
+        type: Schema.Types.ObjectId
+        , ref: 'User'
+    }]
+},
+    {
+        toJSON: {
+            virtuals: true
+        },
+        id: false
     }
-});
+);
 
-const User = mongoose.model('User', userSchema);  // creates a collection called 'users'
-const handleError = (err) => console.log(err);
+userSchema.virtual('friendCount').get(function () {
+    return this.friends.length;
+}
+);
 
-User.find
+const User = model('User', userSchema);  // creates a collection called 'users'
 
 module.exports = User;
