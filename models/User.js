@@ -12,17 +12,22 @@ const userSchema = new Schema({
             , message: "Please enter a valid email address"
         }
     },
-    thoughts: [{ // array of _id values referencing the Thought model
+
+    // create array of _id values referencing the Thought model
+    // mongoose will automatically populate this field with the corresponding thoughts when queried
+    thoughts: [{
         type: Schema.Types.ObjectId,
-        ref: 'Thought'  // works like a foreign key in SQL
+        ref: 'Thought'  // works like a foreign key in SQL; references the Thought model's _id field
+        ,
     }],
 
-    friends: [{ // array of _id values referencing the User model (self-reference)
-        type: Schema.Types.ObjectId
-        , ref: 'User'
-    }]
-},
-    { // virtuals: true tells Mongoose to include virtuals when converting the MongoDB document to a JSON representation
+    // create array of _id values referencing the User model (self-reference)
+    friends: [{
+            type: Schema.Types.ObjectId
+            , ref: 'User' // works within the same User collection
+        }]
+    },
+    { // tells Mongoose to include virtuals when converting the MongoDB document to a JSON representation
         toJSON: {
             virtuals: true,
         },

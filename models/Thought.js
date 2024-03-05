@@ -1,7 +1,6 @@
+const { Schema, model, Types } = require('mongoose'); // destructuring library to use Schema and model
 
-const { Schema, model, Types } = require('mongoose');
-
-const reactionSchema = new Schema({  // will be used as a subdocument
+const reactionSchema = new Schema({  // will be used as a subdocument within the Thought model
   reactionId: {
     type: Schema.Types.ObjectId,  // tells Mongoose to expect an ObjectId
     default: () => new Types.ObjectId() // creates a unique id
@@ -21,9 +20,9 @@ const reactionSchema = new Schema({  // will be used as a subdocument
     get: (timestamp) => timestamp.toLocaleDateString() // gets the date in the format of: 3/26/2021, 9:53:39 PM 
   }
 },
-  {
-    toJSON: {
-      getters: true
+  { // closes the toJSON: true option
+    toJSON: {  // allows us to use a function to format the data before it gets to the res.json() method
+      getters: true 
     }
   }
 );
@@ -51,6 +50,7 @@ const thoughtSchema = new Schema(
     ]
   },
   {
+    // closes the virtuals: true option
     toJSON: {
       virtuals: true,
       getters: true // getters allow us to use a function to format the data before it gets to the res.json() method

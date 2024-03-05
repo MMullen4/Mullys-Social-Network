@@ -3,9 +3,9 @@ const { Thought, User } = require('../models');
 module.exports = {
   async getThought (req, res) {
     try {
-      const allThoughts = await Thought.find()
+      const allThoughts = await Thought.find() // find all thoughts
       console.log(allThoughts);
-      res.json(allThoughts);
+      res.json(allThoughts); // respond / return the thoughts
     } catch (err) {
       console.error({ message: err });
       return res.status(500).json(err);
@@ -26,10 +26,10 @@ module.exports = {
   // create a new thought
   async createThought(req, res) {
     try {
-      const thought = await Thought.create(req.body);
+      const thought = await Thought.create(req.body); // create a new thought
       console.log(thought);
-      await User.findOneAndUpdate( // new: true returns the updated document
-        { _id: req.body.userId }, // find the user by their _id and update their thoughts array with the new thought's _id
+      await User.findOneAndUpdate( // go to the User model and find the user by their _id
+        { _id: req.body.userId }, // find user by _id and update their thoughts array with the new thought's _id
         { $push: { thoughts: thought._id } }, // push the new thought's _id to the user's thoughts array
         { new: true } // return the updated document
       );
@@ -38,9 +38,10 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+  // find a thought by its _id and delete it
   async deleteThought(req, res) {
-    try {
-      const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
+    try { 
+      const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId }); 
       !thought
         ? res.status(404).json({ message: 'No thought with that ID' })
         : res.json(thought);
@@ -60,9 +61,9 @@ module.exports = {
   },
   async addReaction(req, res) {
     try {
-      const thought = await Thought.findOneAndUpdate(
+      const thought = await Thought.findOneAndUpdate( // find the thought by its _id (from Thought model) and add the reaction to the reactions array
         { _id: req.params.thoughtId },
-        { $addToSet: { reactions: req.body } }, // add to set to prevent duplicate reactions rather than push
+        { $addToSet: { reactions: req.body } }, // add to set of nested sub-documnets to prevent duplicate reactions rather than push
         { new: true }
       );
       !thought

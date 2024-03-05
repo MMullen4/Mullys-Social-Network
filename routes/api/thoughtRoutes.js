@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {
+const { // import the functions from our thought controller
   getThought,
   getSingleThought,
   createThought,
