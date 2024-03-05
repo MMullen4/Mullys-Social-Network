@@ -1,7 +1,7 @@
 const connection = require('../config/connection');
-const { Post, Tags } = require('../models');
+const { User, Thought } = require('../models');
 // Import functions for seed data
-const { getRandomColor, getRandomPost, genRandomIndex } = require('./data');
+// const { getRandomColor, getRandomPost, genRandomIndex } = require('./data');
 
 // Start the seeding runtime timer
 console.time('seeding');
@@ -9,19 +9,26 @@ console.time('seeding');
 // Creates a connection to mongodb
 connection.once('open', async () => {
   // Delete the collections if they exist
-  let postCheck = await connection.db.listCollections({ name: 'posts' }).toArray();
-  if (postCheck.length) {
-    await connection.dropCollection('posts');
+  let userCheck = await connection.db.listCollections({ name: 'users' }).toArray();
+  if (userCheck.length) {
+    await connection.dropCollection('users');
+  }
+  let thoughtCheck = await connection.db.listCollections({ name: 'thoughts' }).toArray();
+  if (thoughtCheck.length) {
+    await connection.dropCollection('thoughts');
+  }
+  let reactionCheck = await connection.db.listCollections({ name: 'reactions' }).toArray();
+  if (reactionCheck.length) {
+    await connection.dropCollection('reactions');
+  }
+  let friendCheck = await connection.db.listCollections({ name: 'friends' }).toArray();
+  if (friendCheck.length) {
+    await connection.dropCollection('friends');
   }
 
-  let tagCheck = await connection.db.listCollections({ name: 'tags' }).toArray();
-  if (tagCheck.length) {
-    await connection.dropCollection('tags');
-  }
-
-  // Empty arrays for randomly generated posts and tags
-  const tags = [];
-  const posts = [];
+  // Empty arrays for randomly generated users and thoughts
+  const user = [];
+  const thought = [];
 
   // Function to make a post object and push it into the posts array
   const makePost = (text) => {

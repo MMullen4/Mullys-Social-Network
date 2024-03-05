@@ -14,7 +14,7 @@ const userSchema = new Schema({
     },
     thoughts: [{ // array of _id values referencing the Thought model
         type: Schema.Types.ObjectId,
-         ref: 'Thought'  // works like a foreign key in SQL
+        ref: 'Thought'  // works like a foreign key in SQL
     }],
 
     friends: [{ // array of _id values referencing the User model (self-reference)
@@ -22,18 +22,17 @@ const userSchema = new Schema({
         , ref: 'User'
     }]
 },
-    {
+    { // virtuals: true tells Mongoose to include virtuals when converting the MongoDB document to a JSON representation
         toJSON: {
-            virtuals: true
+            virtuals: true,
         },
         id: false
-    }
+    },
 );
 
 userSchema.virtual('friendCount').get(function () {
     return this.friends.length;
-}
-);
+});
 
 const User = model('User', userSchema);  // creates a collection called 'users'
 

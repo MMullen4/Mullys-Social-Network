@@ -1,9 +1,9 @@
-  
+
 const { Schema, model, Types } = require('mongoose');
 
 const reactionSchema = new Schema({  // will be used as a subdocument
   reactionId: {
-    type: Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,  // tells Mongoose to expect an ObjectId
     default: () => new Types.ObjectId() // creates a unique id
   },
   reactionBody: {
@@ -53,16 +53,16 @@ const thoughtSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
-      getters: true
+      getters: true // getters allow us to use a function to format the data before it gets to the res.json() method
     },
     id: false
   }
 );
-    
-    thoughtSchema.virtual('reactionCount').get(function () {
-      return this.reactions.length;
-    });
-  
+
+thoughtSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length;
+});
+
 const Thought = model('Thought', thoughtSchema);
 
 module.exports = Thought;
