@@ -17,14 +17,13 @@ const userSchema = new Schema({
     // mongoose will automatically populate this field with the corresponding thoughts when queried
     thoughts: [{
         type: Schema.Types.ObjectId,
-        ref: 'Thought'  // works like a foreign key in SQL; references the Thought model's _id field
-        ,
+        ref: 'Thought',  // works like a foreign key in SQL; references the Thought model's _id field
     }],
-
-    // create array of _id values referencing the User model (self-reference)
-    friends: [{
-            type: Schema.Types.ObjectId
-            , ref: 'User' // works within the same User collection
+        
+        // create array of _id values referencing the User model (self-reference)
+        friends: [{
+            type: Schema.Types.ObjectId,
+         ref: 'User', // works within the same User collection
         }]
     },
     { // tells Mongoose to include virtuals when converting the MongoDB document to a JSON representation
@@ -32,10 +31,10 @@ const userSchema = new Schema({
             virtuals: true,
         },
         id: false
-    },
+    }
 );
 // virtual property 'friendCount' that retrieves the length of the user's friends array field on query.
-// not stored in the database, but computed on the fly
+// not stored in the database
 userSchema.virtual('friendCount').get(function () {
     return this.friends.length;
 });

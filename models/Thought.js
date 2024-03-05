@@ -59,6 +59,7 @@ const thoughtSchema = new Schema(
   }
 );
 
+// virtual properies store info that is not stored in the database
 thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });

@@ -1,25 +1,33 @@
-const lorum = [
-  'lorem',
-  
-];
+const { default: test } = require("node:test")
 
-const genRandomIndex = (arr) => Math.floor(Math.random() * arr.length);
+[{
+  "username": "admin",
+  "email": "admin@icloud.com",
+  "thoughts": "test",
+  "friends": "matt"
 
-const getRandomWord = () => `${lorum[genRandomIndex(lorum)]}`;
-
-const getRandomPost = (words) => {
-  let post = '';
-  for (let i = 0; i < words; i++) {
-    post += ` ${getRandomWord()}`;
-  }
-  return post;
-};
-const getRandomColor = () =>
-  `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-
-module.exports = {
-  getRandomWord,
-  getRandomColor,
-  getRandomPost,
-  genRandomIndex,
-};
+},
+{
+  "username": "matt",
+  "email": "matt@icloud.com",
+  "thoughts": "test",
+  "friends": "admin"
+},
+{
+  "username": "test",
+  "email": "test@icloud.com",
+  "thoughts": "More testing needed",
+  "friends": "Joe"
+},
+{
+  "username": "Joe",
+  "email": "Joe@icloud.com",
+  "thoughts": "help needed",
+  "friends": "Harvey"
+},
+  {
+    "username": "Harvey",
+    "email": "Harvey@icloud.com",
+    "thoughts": "even more help needed",
+    "friends": "Lois"
+  }]

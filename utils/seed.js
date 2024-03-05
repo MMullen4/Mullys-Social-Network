@@ -1,26 +1,27 @@
 const connection = require('../config/connection');
-const { User, Thought } = require('../models');
-// Import functions for seed data
-// const { getRandomColor, getRandomPost, genRandomIndex } = require('./data');
+const { User, Thought } = require('../models'); // import the User and Thought models
 
 // Start the seeding runtime timer
 console.time('seeding');
 
-// Creates a connection to mongodb
+// connect to the database
 connection.once('open', async () => {
   // Delete the collections if they exist
   let userCheck = await connection.db.listCollections({ name: 'users' }).toArray();
   if (userCheck.length) {
     await connection.dropCollection('users');
   }
+  // Empty arrays for randomly generated users and thoughts
   let thoughtCheck = await connection.db.listCollections({ name: 'thoughts' }).toArray();
   if (thoughtCheck.length) {
     await connection.dropCollection('thoughts');
   }
+  // Empty arrays for randomly generated users and thoughts
   let reactionCheck = await connection.db.listCollections({ name: 'reactions' }).toArray();
   if (reactionCheck.length) {
     await connection.dropCollection('reactions');
   }
+  // Empty arrays for randomly generated users and thoughts
   let friendCheck = await connection.db.listCollections({ name: 'friends' }).toArray();
   if (friendCheck.length) {
     await connection.dropCollection('friends');
@@ -30,37 +31,44 @@ connection.once('open', async () => {
   const user = [];
   const thought = [];
 
-  // Function to make a post object and push it into the posts array
-  const makePost = (text) => {
+  // Function to make a thought object and push it into the posts array
+  const makeThought = (text) => {
     posts.push({
       published: Math.random() < 0.5,
       text,
-      tags: [tags[genRandomIndex(tags)]._id],
+      tags: [thought[genRandomIndex(makeThought)]._id],
     });
   };
 
-  // Create 20 random tags and push them into the tags array
-  for (let i = 0; i < 20; i++) {
-    const tagname = getRandomColor();
-
-    tags.push({
-      tagname,
-      color: tagname,
+  // Create 5 random thoughts and push them into the tags array
+  for (let i = 0; i < 5; i++) {
+    const thoughtText = getRandomPost(5);
+    thought.push({
+      thoughtText,
+      username: user[genRandomIndex(user)].username,
     });
+
+    // Wait for the thoughts to be inserted into the database
+    await Thought.collection.insertMany(thought);
   }
+},
 
-  // Wait for the tags to be inserted into the database
-  await Tags.collection.insertMany(tags);
+  // Create 5 random users and push them into the users array
+  for (let i = 0; i < 5; i++) {
+    const username = getRandomPost(5);
+    const email = `${username}@${getRandomPost(5)}.com`;
+    user.push({
+      username,
+      email,
+    });
 
-  // For each of the tags that exist, make a random post of length 50
-  tags.forEach(() => makePost(getRandomPost(50)));
+    await User.collection.insertMany(user);
+  }
+  console.log('Users and thoughts seeded!');
 
-  // Wait for the posts array to be inserted into the database
-  await Post.collection.insertMany(posts);
+  console.table(thought); // log the thoughts
 
-  // Log out a pretty table for tags and posts, excluding the excessively long text property
-  console.table(tags);
-  console.table(posts, ['published', 'tags', '_id']);
-  console.timeEnd('seeding');
-  process.exit(0);
-});
+
+
+console.timeEnd('seeding');  // end the seeding runtime timer
+process.exit(0); // exit the process
