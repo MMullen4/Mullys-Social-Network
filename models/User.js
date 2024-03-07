@@ -8,8 +8,8 @@ const userSchema = new Schema({
         type: String, unique: true, required: true, validate: {
             validator: function (v) {
                 return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
-            }
-            , message: "Please enter a valid email address"
+            },
+            message: "Please enter a valid email address"
         }
     },
 
@@ -19,20 +19,21 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Thought',  // works like a foreign key in SQL; references the Thought model's _id field
     }],
-        
-        // create array of _id values referencing the User model (self-reference)
-        friends: [{
-            type: Schema.Types.ObjectId,
-         ref: 'User', // works within the same User collection
-        }]
+
+    // create array of _id values referencing the User model (self-reference)
+    friends: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User', // works within the same User collection
+    }]
+},
+
+{ 
+    toJSON: {
+        virtuals: true,
     },
-    { // tells Mongoose to include virtuals when converting the MongoDB document to a JSON representation
-        toJSON: {
-            virtuals: true,
-        },
-        id: false
-    }
-);
+    id: false
+});
+
 // virtual property 'friendCount' that retrieves the length of the user's friends array field on query.
 // not stored in the database
 userSchema.virtual('friendCount').get(function () {
@@ -40,5 +41,4 @@ userSchema.virtual('friendCount').get(function () {
 });
 
 const User = model('User', userSchema);  // creates a collection called 'users'
-
 module.exports = User;

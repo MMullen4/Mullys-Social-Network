@@ -1,11 +1,9 @@
-const { default: test } = require("node:test")
 
-[{
+const users = [{
   "username": "admin",
   "email": "admin@icloud.com",
   "thoughts": "test",
   "friends": "matt"
-
 },
 {
   "username": "matt",
@@ -31,3 +29,5 @@ const { default: test } = require("node:test")
     "thoughts": "even more help needed",
     "friends": "Lois"
   }]
+
+module.exports = users ;

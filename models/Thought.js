@@ -6,16 +6,16 @@ const reactionSchema = new Schema({  // will be used as a subdocument within the
     default: () => new Types.ObjectId() // creates a unique id
   },
   reactionBody: {
-    type: String,
+    type: String,  // tells Mongoose to expect a string
     required: true,
     maxLength: 280
   },
   username: {
-    type: String,
+    type: String, 
     required: true
   },
   createdAt: {
-    type: Date,
+    type: Date, // tells Mongoose to expect a date
     default: Date.now,
     get: (timestamp) => timestamp.toLocaleDateString() // gets the date in the format of: 3/26/2021, 9:53:39 PM 
   }
