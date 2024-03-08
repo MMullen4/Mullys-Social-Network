@@ -15,7 +15,7 @@ User must install npm i inquirer, mongoose, and insomnia to view results.
 ## Usage
 User is presented with the following options via insomnia :
  - GET routes for all users and all thoughts 
- - GET routes for a single user & single though
+ - GET routes for a single user & single thought
  - POST, PUT, and DELETE routes for users and thoughts
  - POST and PUT routes for a user's friend list
  - POST, PUT and DELETE routes for reactions to thoughts
