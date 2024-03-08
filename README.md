@@ -3,7 +3,9 @@ A social network web application where users can share their thoughts, react to 
 
 ## Visuals
 
-![Alt text](/Screenshot.png)
+![Alt text](image.png)
+
+https://github.com/MMullen4/My-Social-API
 
 
 
