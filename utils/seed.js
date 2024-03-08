@@ -11,11 +11,6 @@ connection.once('open', async () => {
   if (userCheck.length) {
     await connection.dropCollection('users');
   }
-  
-  // let thoughtCheck = await connection.db.listCollections({ name: 'thoughts' }).toArray();
-  // if (thoughtCheck.length) {
-  //   await Thought.deleteMany('thoughts');
-  // }
 
   const userSeed = [];
   for (let i = 0; i < 5; i++) {
