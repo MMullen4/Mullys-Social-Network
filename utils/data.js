@@ -1,5 +1,5 @@
 
-const users = [{
+const users = [{ // seed data for the User model
   "username": "admin",
   "email": "admin@icloud.com",
   "thoughts": "test",

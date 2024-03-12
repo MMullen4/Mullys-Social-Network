@@ -7,7 +7,6 @@ const { // import the functions from our thought controller
   updateThought,
   addReaction,
   deleteReaction,
-
 } = require('../../controllers/thoughtController'); // import the functions from our thought controller
 
 // get all thoughts and create a new thought

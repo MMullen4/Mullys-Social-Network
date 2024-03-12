@@ -1,11 +1,11 @@
-const users = require('./data');
-const connection = require('../config/connection');
+const users = require('./data'); // import the user data
+const connection = require('../config/connection'); // import the connection to the database
 const { User, Thought } = require('../models'); // import the User and Thought models
-const { db, collection } = require('../models/User');
-const { connect } = require('mongoose');
+const { db, collection } = require('../models/User'); // import the User and Thought models
+const { connect } = require('mongoose'); // import the mongoose package
 
 
-connection.once('open', async () => {
+connection.once('open', async () => { // open the connection to the database
   console.log('connected');
   let userCheck = await connection.db.listCollections({ name: 'users' }).toArray();
   if (userCheck.length) {
@@ -13,7 +13,7 @@ connection.once('open', async () => {
   }
 
   const userSeed = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 5; i++) { // loop through the user data
     const userName = users[i].username;
     const email = users[i].email;
     userSeed.push({ userName, email }); // push the user data into the userSeed array

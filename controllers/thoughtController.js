@@ -1,7 +1,7 @@
 const { Thought, User } = require('../models');
 
 module.exports = {
-  async getThought(req, res) {
+  async getThought(req, res) { // get all thoughts
     try {
       const allThoughts = await Thought.find() // find all thoughts
       console.log(allThoughts);
@@ -12,7 +12,7 @@ module.exports = {
     }
   },
 
-  async getSingleThought(req, res) {
+  async getSingleThought(req, res) { // get a single thought by its _id
     try {
       const singleThought = await Thought.findOne({ _id: req.params.thoughtId });
       console.log(singleThought);
@@ -57,7 +57,7 @@ module.exports = {
       res.status(500).json(err)
     }
   },
-  async updateThought(req, res) {
+  async updateThought(req, res) { // find a thought by its _id and update it
     try {
       const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId }, req.body, { new: true });
       !thought
@@ -67,7 +67,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  async addReaction(req, res) {
+  async addReaction(req, res) { // find a thought by its _id and add a reaction to it
     try {
       const thought = await Thought.findOneAndUpdate( // find the thought by its _id (from Thought model) and add the reaction to the reactions array
         { _id: req.params.thoughtId },
@@ -81,13 +81,15 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  async deleteReaction(req, res) {
+  async deleteReaction(req, res) { // find a thought by its _id and remove a reaction from it
     try {
       const thought = await Thought.findOneAndUpdate( // find the thought by its _id (from Thought model) and remove the reaction by its reactionId value
         { _id: req.params.thoughtId },
         { $pull: { reactions: { reactionId: req.params.reactionId } } }, // remove the reaction by the reaction's reactionId value
         { new: true }
       );
+      console.log(req.params);
+      console.log(thought);
       !thought
         ? res.status(404).json({ message: 'No thought with that ID' })
         : res.json(thought);
